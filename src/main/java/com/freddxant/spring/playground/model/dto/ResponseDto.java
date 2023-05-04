@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class ResponseDto<T> implements Serializable {
 
     private Boolean success;
+    private int code;
     private String message;
     private T data;
 
