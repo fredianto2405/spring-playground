@@ -11,14 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/employee/")
 public class EmployeeController {
 
     @Autowired
     EmployeeService employeeService;
 
     @Operation(summary = "Find All Employee")
-    @GetMapping(value = "findAllEmployee")
+    @GetMapping(value = "/employee/findAllEmployee")
     @CrossOrigin(value = "*")
     public ResponseEntity<?> findAllEmployee() {
         ResponseDto responseDto = employeeService.findAllEmployee();
@@ -26,7 +25,7 @@ public class EmployeeController {
     }
 
     @Operation(summary = "Find by Employee Id")
-    @GetMapping(value = "findByEmployeeId")
+    @GetMapping(value = "/employee/findByEmployeeId")
     @CrossOrigin(value = "*")
     public ResponseEntity<?> findByEmployeeId(@RequestParam Long id) {
         ResponseDto responseDto = employeeService.findByEmployeeId(id);
@@ -34,7 +33,7 @@ public class EmployeeController {
     }
 
     @Operation(summary = "Save Employee")
-    @PostMapping(value = "saveEmployee")
+    @PostMapping(value = "/employee/saveEmployee")
     @CrossOrigin(value = "*")
     public ResponseEntity<?> saveEmployee(@RequestBody EmployeeDto employeeDto) {
         Employee employee = new Employee();
@@ -49,7 +48,7 @@ public class EmployeeController {
     }
 
     @Operation(summary = "Update by Employee Id")
-    @PutMapping(value = "updateEmployee/{id}")
+    @PutMapping(value = "/employee/updateEmployee/{id}")
     @CrossOrigin(value = "*")
     public ResponseEntity<?> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDto employeeDto) {
         Employee employee = new Employee();
@@ -65,7 +64,7 @@ public class EmployeeController {
     }
 
     @Operation(summary = "Delete by Employee Id")
-    @DeleteMapping(value = "deleteEmployee/{id}")
+    @DeleteMapping(value = "/employee/deleteEmployee/{id}")
     @CrossOrigin(value = "*")
     public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
         ResponseDto responseDto = employeeService.deleteByEmployeeId(id);
