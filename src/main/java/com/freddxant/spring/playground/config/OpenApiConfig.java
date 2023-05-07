@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
         security = @SecurityRequirement(name = "bearerToken")
 )
 @SecuritySchemes(
-        @SecurityScheme(name = "accessToken", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
+        @SecurityScheme(name = "bearerToken", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
 )
 public class OpenApiConfig {
 }

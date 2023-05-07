@@ -9,5 +9,6 @@ public interface EmployeeService {
     ResponseDto findByEmployeeId(Long id);
     ResponseDto saveEmployee(Employee employee);
     ResponseDto deleteByEmployeeId(Long id);
+    ResponseDto saveEmployeeJdbcTemplate(Employee employee);
 
 }

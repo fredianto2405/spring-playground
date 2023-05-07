@@ -5,6 +5,7 @@ import com.freddxant.spring.playground.model.dto.ResponseDto;
 import com.freddxant.spring.playground.model.entity.Employee;
 import com.freddxant.spring.playground.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,9 @@ public class EmployeeController {
 
     @Autowired
     EmployeeService employeeService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Operation(summary = "Find All Employee")
     @GetMapping(value = "/employee/findAllEmployee")
@@ -36,13 +40,7 @@ public class EmployeeController {
     @PostMapping(value = "/employee/saveEmployee")
     @CrossOrigin(value = "*")
     public ResponseEntity<?> saveEmployee(@RequestBody EmployeeDto employeeDto) {
-        Employee employee = new Employee();
-        employee.setFirstName(employeeDto.getFirstName());
-        employee.setLastName(employeeDto.getLastName());
-        employee.setAddress(employeeDto.getAddress());
-        employee.setGender(employeeDto.getGender());
-        employee.setPosition(employeeDto.getPosition());
-
+        Employee employee = modelMapper.map(employeeDto, Employee.class);
         ResponseDto responseDto = employeeService.saveEmployee(employee);
         return new ResponseEntity<>(responseDto, HttpStatus.resolve(responseDto.getCode()));
     }
@@ -51,14 +49,8 @@ public class EmployeeController {
     @PutMapping(value = "/employee/updateEmployee/{id}")
     @CrossOrigin(value = "*")
     public ResponseEntity<?> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDto employeeDto) {
-        Employee employee = new Employee();
+        Employee employee = modelMapper.map(employeeDto, Employee.class);
         employee.setId(id);
-        employee.setFirstName(employeeDto.getFirstName());
-        employee.setLastName(employeeDto.getLastName());
-        employee.setAddress(employeeDto.getAddress());
-        employee.setGender(employeeDto.getGender());
-        employee.setPosition(employeeDto.getPosition());
-
         ResponseDto responseDto = employeeService.saveEmployee(employee);
         return new ResponseEntity<>(responseDto, HttpStatus.resolve(responseDto.getCode()));
     }
@@ -68,6 +60,15 @@ public class EmployeeController {
     @CrossOrigin(value = "*")
     public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
         ResponseDto responseDto = employeeService.deleteByEmployeeId(id);
+        return new ResponseEntity<>(responseDto, HttpStatus.resolve(responseDto.getCode()));
+    }
+
+    @Operation(summary = "Save Employee JdbcTemplate")
+    @PostMapping(value = "/employee/saveEmployeeJdbcTemplate")
+    @CrossOrigin(value = "*")
+    public ResponseEntity<?> saveEmployeeJdbcTemplate(@RequestBody EmployeeDto employeeDto) {
+        Employee employee = modelMapper.map(employeeDto, Employee.class);
+        ResponseDto responseDto = employeeService.saveEmployeeJdbcTemplate(employee);
         return new ResponseEntity<>(responseDto, HttpStatus.resolve(responseDto.getCode()));
     }
 
