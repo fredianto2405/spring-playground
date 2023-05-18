@@ -1,14 +1,14 @@
 package com.freddxant.spring.playground;
 
-import com.freddxant.spring.playground.model.dto.EmployeeDto;
 import com.freddxant.spring.playground.model.dto.GithubUserDto;
 import com.freddxant.spring.playground.model.dto.ResponseDto;
-import com.freddxant.spring.playground.model.entity.Employee;
+import com.freddxant.spring.playground.model.entity.Position;
 import com.freddxant.spring.playground.model.entity.User;
+import com.freddxant.spring.playground.repository.PositionRepository;
 import com.freddxant.spring.playground.repository.UserRepository;
 import com.freddxant.spring.playground.service.EmployeeService;
+import com.freddxant.spring.playground.service.PositionService;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -22,6 +22,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,7 +35,13 @@ class SpringPlaygroundApplicationTests {
 	private UserRepository userRepository;
 
 	@Autowired
+	private PositionRepository positionRepository;
+
+	@Autowired
 	private EmployeeService employeeService;
+
+	@Autowired
+	private PositionService positionService;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -58,43 +66,61 @@ class SpringPlaygroundApplicationTests {
 	}
 
 	@Test
-	void testSaveEmployeeJdbcTemplate() {
-		EmployeeDto employeeDto = new EmployeeDto();
-		employeeDto.setFirstName("Rezki Izzati");
-		employeeDto.setLastName("Afiah Rahman");
-		employeeDto.setAddress("Makassar, Sulsel");
-		employeeDto.setGender("Female");
-		employeeDto.setPosition("Middle Software Engineer");
+	void testCreatePosition() {
+		List<String> positionList = new ArrayList<>();
+		positionList.add("Junior Software Engineer Grade I");
+		positionList.add("Junior Software Engineer Grade II");
+		positionList.add("Junior Software Engineer Grade III");
+		positionList.add("Middle Software Engineer Grade I");
+		positionList.add("Middle Software Engineer Grade II");
+		positionList.add("Middle Software Engineer Grade III");
+		positionList.add("Senior Software Engineer Grade I");
+		positionList.add("Senior Software Engineer Grade II");
+		positionList.add("Senior Software Engineer Grade III");
+		positionList.add("Junior Quality Assurance Grade I");
+		positionList.add("Junior Quality Assurance Grade II");
+		positionList.add("Junior Quality Assurance Grade III");
+		positionList.add("Middle Quality Assurance Grade I");
+		positionList.add("Middle Quality Assurance Grade II");
+		positionList.add("Middle Quality Assurance Grade III");
+		positionList.add("Senior Quality Assurance Grade I");
+		positionList.add("Senior Quality Assurance Grade II");
+		positionList.add("Senior Quality Assurance Grade III");
+		positionList.add("Junior Business Analyst Grade I");
+		positionList.add("Junior Business Analyst Grade II");
+		positionList.add("Junior Business Analyst Grade III");
+		positionList.add("Middle Business Analyst Grade I");
+		positionList.add("Middle Business Analyst Grade II");
+		positionList.add("Middle Business Analyst Grade III");
+		positionList.add("Senior Business Analyst Grade I");
+		positionList.add("Senior Business Analyst Grade II");
+		positionList.add("Senior Business Analyst Grade III");
+		positionList.add("Technical Writer Grade I");
+		positionList.add("Technical Writer Grade II");
+		positionList.add("Technical Writer Grade III");
 
-		Employee employee = modelMapper.map(employeeDto, Employee.class);
-		ResponseDto responseDto = employeeService.saveEmployeeJdbcTemplate(employee);
-		log.info("success[{}], code[{}], message[{}], data[{}]",
-				responseDto.getSuccess(),
-				responseDto.getCode(),
-				responseDto.getMessage(),
-				responseDto.getData().toString()
-		);
+		for (String pl : positionList) {
+			Position position = new Position();
+			position.setPositionName(pl);
+
+			try {
+				positionRepository.save(position);
+				System.out.println("Success insert position: " + pl);
+			} catch (Exception e) {
+				System.out.println("Error insert position: " + e.getMessage());
+			}
+		}
+	}
+
+	@Test
+	void testFindAllPosition() {
+		ResponseDto responseDto = positionService.findAllPosition();
+		System.out.println(responseDto.toString());
 	}
 
 	@Test
 	void testGson() {
-		// create new object
-		EmployeeDto dto = new EmployeeDto();
-		dto.setFirstName("Freddy");
-		dto.setLastName("");
-		dto.setAddress("Tangerang, Banten");
-		dto.setGender("Male");
-		dto.setPosition("Middle Software Engineer");
-
-		// convert object to string json
 		Gson gson = new Gson();
-		String jsonEmployee = gson.toJson(dto);
-		System.out.println("jsonEmployee: " + jsonEmployee);
-
-		// convert string json to object
-		Gson gsonBuilder = new GsonBuilder().create();
-		EmployeeDto employee = gsonBuilder.fromJson(jsonEmployee, EmployeeDto.class);
-		System.out.println(employee.toString());
 
 		// deserialize data json from webservice
 		try {

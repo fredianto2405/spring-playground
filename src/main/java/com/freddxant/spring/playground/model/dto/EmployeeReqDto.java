@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
-public class EmployeeDto implements Serializable {
+public class EmployeeReqDto implements Serializable {
 
     @NotNull
     @Schema(name = "firstName", example = "John")
@@ -22,7 +22,7 @@ public class EmployeeDto implements Serializable {
     @Schema(name = "gender", example = "Male")
     private String gender;
     @NotNull
-    @Schema(name = "position", example = "Software Engineer")
-    private String position;
+    @Schema(name = "positionId", example = "1")
+    private Long positionId;
 
 }

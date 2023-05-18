@@ -9,20 +9,13 @@ import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name = "employee")
+@Table(name = "master_position")
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class Employee implements Serializable {
+public class Position implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String gender;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "positionId", referencedColumnName = "id")
-    private Position position;
+    private String positionName;
 
 }
