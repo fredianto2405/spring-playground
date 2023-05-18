@@ -5,6 +5,7 @@ import com.freddxant.spring.playground.model.dto.ResponseDto;
 import com.freddxant.spring.playground.model.entity.Employee;
 import com.freddxant.spring.playground.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,7 @@ public class EmployeeController {
     @Operation(summary = "Find by Employee Id")
     @GetMapping(value = "/employee/findByEmployeeId")
     @CrossOrigin(value = "*")
-    public ResponseEntity<?> findByEmployeeId(@RequestParam Long id) {
+    public ResponseEntity<?> findByEmployeeId(@Schema(name = "id", example = "1") @RequestParam Long id) {
         ResponseDto responseDto = employeeService.findByEmployeeId(id);
         return new ResponseEntity<>(responseDto, HttpStatus.resolve(responseDto.getCode()));
     }
@@ -48,7 +49,7 @@ public class EmployeeController {
     @Operation(summary = "Update by Employee Id")
     @PutMapping(value = "/employee/updateEmployee/{id}")
     @CrossOrigin(value = "*")
-    public ResponseEntity<?> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<?> updateEmployee(@Schema(name = "id", example = "1") @PathVariable Long id, @RequestBody EmployeeDto employeeDto) {
         Employee employee = modelMapper.map(employeeDto, Employee.class);
         employee.setId(id);
         ResponseDto responseDto = employeeService.saveEmployee(employee);
@@ -58,17 +59,8 @@ public class EmployeeController {
     @Operation(summary = "Delete by Employee Id")
     @DeleteMapping(value = "/employee/deleteEmployee/{id}")
     @CrossOrigin(value = "*")
-    public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
+    public ResponseEntity<?> deleteEmployee(@Schema(name = "id", example = "1") @PathVariable Long id) {
         ResponseDto responseDto = employeeService.deleteByEmployeeId(id);
-        return new ResponseEntity<>(responseDto, HttpStatus.resolve(responseDto.getCode()));
-    }
-
-    @Operation(summary = "Save Employee JdbcTemplate")
-    @PostMapping(value = "/employee/saveEmployeeJdbcTemplate")
-    @CrossOrigin(value = "*")
-    public ResponseEntity<?> saveEmployeeJdbcTemplate(@RequestBody EmployeeDto employeeDto) {
-        Employee employee = modelMapper.map(employeeDto, Employee.class);
-        ResponseDto responseDto = employeeService.saveEmployeeJdbcTemplate(employee);
         return new ResponseEntity<>(responseDto, HttpStatus.resolve(responseDto.getCode()));
     }
 

@@ -48,7 +48,7 @@ class SpringPlaygroundApplicationTests {
 		String password = passwordEncoder.encode("12345678");
 
 		User user = new User();
-		user.setEmail("testing@email.com");
+		user.setEmail("user@email.com");
 		user.setPassword(password);
 
 		User savedUser = userRepository.save(user);

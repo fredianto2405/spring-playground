@@ -43,16 +43,14 @@ public class EmployeeImpl implements EmployeeService {
                 employeeDtoList.add(employeeDto);
             }
 
+            responseDto.setSuccess(true);
+            responseDto.setCode(200);
+            responseDto.setData(employeeDtoList);
+
             if (employeeDtoList.size() > 0) {
-                responseDto.setSuccess(true);
-                responseDto.setCode(200);
                 responseDto.setMessage("Data found");
-                responseDto.setData(employeeDtoList);
             } else {
-                responseDto.setSuccess(true);
-                responseDto.setCode(404);
                 responseDto.setMessage("No data found");
-                responseDto.setData(employeeDtoList);
             }
         } catch (Exception e) {
             responseDto.setSuccess(false);
@@ -71,14 +69,13 @@ public class EmployeeImpl implements EmployeeService {
         try {
             Optional<Employee> employee = employeeRepository.findById(id);
 
+            responseDto.setSuccess(true);
+            responseDto.setCode(200);
+
             if (employee.isPresent()) {
-                responseDto.setSuccess(true);
-                responseDto.setCode(200);
                 responseDto.setMessage("Data found");
                 responseDto.setData(employee);
             } else {
-                responseDto.setSuccess(true);
-                responseDto.setCode(404);
                 responseDto.setMessage("No data found");
                 responseDto.setData(null);
             }
@@ -124,7 +121,7 @@ public class EmployeeImpl implements EmployeeService {
                 try {
                     employeeRepository.deleteById(id);
                     responseDto.setSuccess(true);
-                    responseDto.setCode(204);
+                    responseDto.setCode(200);
                     responseDto.setMessage("Employee successfully deleted");
                     responseDto.setData(employee);
                 } catch (Exception e) {
@@ -135,7 +132,7 @@ public class EmployeeImpl implements EmployeeService {
                 }
             } else {
                 responseDto.setSuccess(true);
-                responseDto.setCode(404);
+                responseDto.setCode(200);
                 responseDto.setMessage("No data found with id " + id);
                 responseDto.setData(null);
             }

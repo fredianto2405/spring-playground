@@ -4,14 +4,12 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
 @Entity
+@Table(name = "employee")
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class Employee implements Serializable {
 
